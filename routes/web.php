@@ -28,3 +28,8 @@ Route::get('users','UsersController@index')->name('users.index');
 Route::get('users/{user}','UsersController@show')->name('users.show');
 Route::get('users/create','UsersController@create')->name('users.create');
 Route::post('users/store','UsersController@store')->name('users.store');
+
+//会话登录退出
+Route::get('login','SessionsController@create')->name('login');
+Route::post('login','SessionsController@store')->name('login');
+Route::delete('logout','SessionsController@destroy')->name('logout');

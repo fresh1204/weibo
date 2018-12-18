@@ -24,13 +24,13 @@ class UsersController extends Controller
     		'password'=>'required|confirmed|min:6'
     	]);
 
-
+    	//往数据库中插入数据
     	$user = User::create([
     		'name'=>$request->name,
     		'email'=>$request->email,
     		'password'=>bcrypt($request->password),
     	]);
-
+    	
     	session()->flash('success', '欢迎'.$user->name.'，您将在这里开启一段新的旅程~');
 
     	return redirect()->route('users.show',[$user]);
