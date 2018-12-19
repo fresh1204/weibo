@@ -33,9 +33,16 @@ class UsersController extends Controller
 
     	//用户自动登录
     	Auth::login($user);
-    	
+
     	session()->flash('success', '欢迎'.$user->name.'，您将在这里开启一段新的旅程~');
 
     	return redirect()->route('users.show',[$user]);
+    }
+
+    //用户退出
+    public function destroy(){
+    	Auth::logout();
+    	session()->flash('success', '您已成功退出！');
+    	return redirect('login');
     }
 }
