@@ -28,6 +28,8 @@ Route::get('users','UsersController@index')->name('users.index');
 Route::get('users/{user}','UsersController@show')->name('users.show');
 Route::get('users/create','UsersController@create')->name('users.create');
 Route::post('users/store','UsersController@store')->name('users.store');
+Route::get('users/{user}/edit','UsersController@edit')->name('users.edit');
+Route::patch('users/{user}','UsersController@update')->name('users.update');
 
 //会话登录退出
 Route::get('login','SessionsController@create')->name('login');

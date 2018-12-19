@@ -39,10 +39,36 @@ class UsersController extends Controller
     	return redirect()->route('users.show',[$user]);
     }
 
-    //用户退出
-    public function destroy(){
-    	Auth::logout();
-    	session()->flash('success', '您已成功退出！');
-    	return redirect('login');
+    //编辑用户表单
+    public function edit(User $user){
+    	return view('users.edit',compact('user'));
     }
+
+    //对用户更新进行处理
+    public function update(User $user,Request $request){
+    	//表单数据校验
+    	$this->validate($request,[
+    		'name'=>'required|max:50',
+    		'password'=>'nullable|confirmed|min:6',
+    	]);
+
+    	/*
+    	$user->update([
+    		'name'=>$request->name,
+    		'password'=>bcrypt($request->password),
+    	]);
+    	*/
+    	//优化
+    	$data = [];
+    	$data['name'] = $request->name;
+    	if($request->password){
+    		$data['password'] = $request->password;
+    	}
+    	$user->update($data);
+    	session()->flash('success', '个人资料更新成功！');
+
+    	return redirect()->route('users.show',$user->id);
+    }
+
+
 }
