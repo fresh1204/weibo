@@ -6,6 +6,17 @@ use Illuminate\Http\Request;
 use App\Models\user;
 class UsersController extends Controller
 {
+	public function __construct(){
+		$this->middleware('auth', [            
+            'except' => ['show', 'create', 'store']
+        ]);
+
+        //只让未登录用户访问注册页面
+        $this->middleware('guest',[
+        	'only'=>['create']
+        ]);
+	}
+
     //注册页面表单
     public function create(){
     	return view('users.create');
@@ -41,18 +52,22 @@ class UsersController extends Controller
 
     //编辑用户表单
     public function edit(User $user){
+    	//授权校验
+    	$this->authorize('update',$user);
     	return view('users.edit',compact('user'));
     }
 
     //对用户更新进行处理
     public function update(User $user,Request $request){
+    	//授权校验
+    	$this->authorize('update',$user);
     	//表单数据校验
     	$this->validate($request,[
     		'name'=>'required|max:50',
     		'password'=>'nullable|confirmed|min:6',
     	]);
 
-    	/*
+    	/* 
     	$user->update([
     		'name'=>$request->name,
     		'password'=>bcrypt($request->password),
