@@ -8,13 +8,22 @@ class UsersController extends Controller
 {
 	public function __construct(){
 		$this->middleware('auth', [            
-            'except' => ['show', 'create', 'store']
+            'except' => ['show', 'create', 'store','index']
         ]);
 
         //只让未登录用户访问注册页面
         $this->middleware('guest',[
         	'only'=>['create']
         ]);
+	}
+
+	//显示所有用户列表
+	public function index(){
+		//获取所有用户
+		//$users = User::all();
+		//分页获取用户列表
+		$users = User::paginate(10);
+		return view('users.index',compact('users'));
 	}
 
     //注册页面表单
