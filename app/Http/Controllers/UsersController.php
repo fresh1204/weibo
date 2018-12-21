@@ -9,6 +9,7 @@ use Auth;
 class UsersController extends Controller
 {
 	public function __construct(){
+		//开启未登录用户访问权限
 		$this->middleware('auth', [            
             'except' => ['show', 'create', 'store','index','confirmEmail']
         ]);
@@ -115,15 +116,22 @@ class UsersController extends Controller
 
     //注册成功后发送邮件确认
     protected function sendEmailConfirmationTo($user){
-    	$from = '1942480291@qq.com';
-    	$name = '原上草';
+    	//$from = '1942480291@qq.com';
+    	//$name = '原上草';
+
     	$subject = "感谢注册 Weibo 应用！请确认你的邮箱。";
     	$data = compact('user');
     	$to = $user->email;
     	$view = 'emails.confirm';
 
+    	/*
     	Mail::send($view,$data,function($message) use ($from,$name,$to,$subject){
     		$message->from($from,$name)->to($to)->subject($subject);
+    	});
+		*/
+
+    	Mail::send($view,$data,function($message) use ($to,$subject){
+    		$message->to($to)->subject($subject);
     	});
     }
 
