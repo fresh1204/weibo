@@ -12,6 +12,8 @@ class SessionsController extends Controller
             'only' => ['create']
         ]);
     }
+
+
     //登录表单
     public function create(){
     	return view('sessions.create');
@@ -39,7 +41,7 @@ class SessionsController extends Controller
             }
     	}else{
     		session()->flash('danger','很抱歉，您的邮箱和密码不匹配');
-    		return redirect()->back()->withInput();
+    		return redirect()->back()->withInput(); //作用是将旧表单值保存到 Session 中。在新页面你可以使用old获取这些数据。
     	}
     	return;
     }

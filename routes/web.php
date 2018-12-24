@@ -42,7 +42,13 @@ Route::delete('logout','SessionsController@destroy')->name('logout');
 Route::get('signup/confirm/{token}','UsersController@confirmEmail')->name('confirm_email');
 
 //密码重置
+
+//一个邮箱表单
 Route::get('password/reset','Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
+//对邮箱表单进行处理(发送邮件，以返回一个带口令重置密码的表单)
 Route::post('password/email','Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
+
+//重置密码表单
 Route::get('password/reset/{token}','Auth\ResetPasswordController@showResetForm')->name('password.reset');
+//对重置密码表单进行处理
 Route::post('password/reset','Auth\ResetPasswordController@reset')->name('password.update');
