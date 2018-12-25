@@ -28,7 +28,7 @@ class UsersController extends Controller
 		echo User::first()->followers()->count();
 		exit;
 		*/
-		
+
 		//获取所有用户
 		//$users = User::all();
 		//分页获取用户列表
@@ -156,6 +156,22 @@ class UsersController extends Controller
     	Auth::login($user);
     	session()->flash('success', '恭喜你，激活成功！');
     	return redirect()->route('users.show',[$user]);
+    }
+
+    //用户关注人列表
+    public function followings(User $user){
+    	$users = $user->followings()->paginate(15);
+    	$title = $user->name . "关注的人";
+
+    	return view('users.show_follow',compact('users','title'));
+    }
+
+    //用户粉丝列表
+    public function followers(User $user){
+    	$users = $user->followers()->paginate(15);
+    	$title = $user->name . '的粉丝';
+
+    	return view('users.show_follow',compact('users','title'));
     }
 
 
