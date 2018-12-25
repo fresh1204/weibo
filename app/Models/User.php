@@ -48,8 +48,20 @@ class User extends Authenticatable
     }
 
     //获取当前用户发布过的所有微博
+    /*
     public function feed(){
         return $this->statuses()->orderBy('created_at','desc');
+    }
+    */
+
+    //获取所有关注用户的微博动态及当前用户的微博动态
+    public function feed(){
+        //取出所有关注用户的id放到数组中
+        $user_ids = $this->followings->pluck('id')->toArray();
+        //将当前用户的 id 加入到 user_ids 数组中；
+        array_push($user_ids, $this->id);
+        //return 'hello';exit;
+        return Status::whereIn('user_id',$user_ids)->with('user')->orderBy('created_at','desc');
     }
 
 
