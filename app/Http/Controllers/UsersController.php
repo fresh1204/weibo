@@ -22,6 +22,13 @@ class UsersController extends Controller
 
 	//显示所有用户列表
 	public function index(){
+		/*
+		echo count(User::first()->followers);
+		echo '<br/>';
+		echo User::first()->followers()->count();
+		exit;
+		*/
+		
 		//获取所有用户
 		//$users = User::all();
 		//分页获取用户列表
